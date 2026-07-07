@@ -2,7 +2,7 @@ name: Lucky Pillars
 id: lucky_pillars
 version: ${revision}
 type: MINIGAME
-api-version: 3.3
+api-version: 3.4
 main: net.blueva.arcade.modules.lucky_pillars.LuckyPillarsModule
 
 authors:

@@ -37,6 +37,11 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.Map;
 import java.util.Set;
+import net.blueva.arcade.api.setup.ModuleSetupCommand;
+import net.blueva.arcade.api.setup.ModuleSetupMetadata;
+import net.blueva.arcade.api.setup.ModuleSetupStep;
+import net.blueva.arcade.api.setup.ModuleSetupStatusCheck;
+import java.util.List;
 
 public class LuckyPillarsModule implements GameModule<Player, Location, World, Material, ItemStack, Sound, Block, Entity, Listener, EventPriority> {
 
@@ -99,8 +104,8 @@ public class LuckyPillarsModule implements GameModule<Player, Location, World, M
             voteMenu.registerGame(
                     moduleInfo.getId(),
                     Material.valueOf(moduleConfig.getString("menus.vote.item")),
-                    moduleConfig.getStringFrom("language.yml", "vote_menu.name"),
-                    moduleConfig.getStringListFrom("language.yml", "vote_menu.lore")
+                    moduleConfig.getTranslation(null, "vote_menu.name"),
+                    moduleConfig.getTranslationList(null, "vote_menu.lore")
             );
         }
     }
@@ -180,14 +185,13 @@ public class LuckyPillarsModule implements GameModule<Player, Location, World, M
     }
 
     private void registerConfigs() {
-        moduleConfig.register("language.yml", 5);
-        moduleConfig.register("settings.yml", 2);
-        moduleConfig.register("achievements.yml", 1);
-        moduleConfig.register("store.yml", 1);
+        moduleConfig.register("settings.yml");
+        moduleConfig.register("achievements.yml");
+        moduleConfig.register("store.yml");
         moduleConfig.registerCopyOnly("kits.yml");
         moduleConfig.registerCopyOnly("cage.yml");
-        moduleConfig.register("menus/java/lucky_pillars_vote_modifiers.yml", 1);
-        moduleConfig.register("menus/bedrock/lucky_pillars_vote_modifiers.yml", 1);
+        moduleConfig.register("menus/java/lucky_pillars_vote_modifiers.yml");
+        moduleConfig.register("menus/bedrock/lucky_pillars_vote_modifiers.yml");
     }
 
     private void registerStats() {
@@ -196,11 +200,11 @@ public class LuckyPillarsModule implements GameModule<Player, Location, World, M
         }
 
         statsAPI.registerModuleStat(moduleInfo.getId(),
-                new StatDefinition("wins", moduleConfig.getStringFrom("language.yml", "stats.labels.wins", "Wins"), moduleConfig.getStringFrom("language.yml", "stats.descriptions.wins", "LuckyPillars victories"), StatScope.MODULE));
+                new StatDefinition("wins", moduleConfig.getTranslation(null, "stats.labels.wins"), moduleConfig.getTranslation(null, "stats.descriptions.wins"), StatScope.MODULE));
         statsAPI.registerModuleStat(moduleInfo.getId(),
-                new StatDefinition("games_played", moduleConfig.getStringFrom("language.yml", "stats.labels.games_played", "Games Played"), moduleConfig.getStringFrom("language.yml", "stats.descriptions.games_played", "LuckyPillars matches played"), StatScope.MODULE));
+                new StatDefinition("games_played", moduleConfig.getTranslation(null, "stats.labels.games_played"), moduleConfig.getTranslation(null, "stats.descriptions.games_played"), StatScope.MODULE));
         statsAPI.registerModuleStat(moduleInfo.getId(),
-                new StatDefinition("kills", moduleConfig.getStringFrom("language.yml", "stats.labels.kills", "Eliminations"), moduleConfig.getStringFrom("language.yml", "stats.descriptions.kills", "Opponents eliminated in LuckyPillars"), StatScope.MODULE));
+                new StatDefinition("kills", moduleConfig.getTranslation(null, "stats.labels.kills"), moduleConfig.getTranslation(null, "stats.descriptions.kills"), StatScope.MODULE));
     }
 
     private void registerAchievements() {
@@ -209,4 +213,35 @@ public class LuckyPillarsModule implements GameModule<Player, Location, World, M
             achievementsAPI.registerModuleAchievements(moduleInfo.getId(), "achievements.yml");
         }
     }
+
+    @Override
+    public ModuleSetupMetadata getSetupMetadata() {
+        return new ModuleSetupMetadata() {
+
+            @Override
+            public List<ModuleSetupStep> getSetupSteps() {
+                return List.of(
+                        new ModuleSetupStep("region", true, "Configure Region", "Configure the module-specific region setup data.", List.of("/baa game <arena> lucky_pillars region"), "selection region"),
+                        new ModuleSetupStep("team", true, "Configure Team", "Configure the module-specific team setup data.", List.of("/baa game <arena> lucky_pillars team"), "team count and team size")
+                );
+            }
+
+            @Override
+            public List<ModuleSetupCommand> getSetupCommands() {
+                return List.of(
+                        new ModuleSetupCommand("region", "/baa game <arena> lucky_pillars region", "Configure region setup data.", true),
+                        new ModuleSetupCommand("team", "/baa game <arena> lucky_pillars team", "Configure team setup data.", true)
+                );
+            }
+
+            @Override
+            public List<ModuleSetupStatusCheck<?, ?, ?>> getStatusChecks() {
+                return List.of(
+                        new ModuleSetupStatusCheck<>("region", true, "Select the play area region.", context -> (context.getData().has("game.play_area.bounds.min.x") && context.getData().has("game.play_area.bounds.max.x")) || (context.getData().has("game.region.bounds.min.x") && context.getData().has("game.region.bounds.max.x"))),
+                        new ModuleSetupStatusCheck<>("team", true, "Set team count and team size.", context -> context.getData().getInt("teams.count", 0) > 0 && context.getData().getInt("teams.size", 0) > 0)
+                );
+            }
+        };
+    }
+
 }

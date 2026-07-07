@@ -1,16 +1,22 @@
-# Lucky Pillars Module Settings
+#  ____  _               _                      _
+# | __ )| |_   _  ___   / \   _ __ ___ __ _  __| | ___
+# |  _ \| | | | |/ _ \ / _ \ | '__/ __/ _` |/ _` |/ _ \
+# | |_) | | |_| |  __// ___ \| | | (_| (_| | (_| |  __/
+# |____/|_|\__,_|\___/_/   \_|_|  \___\__,_|\__,_|\___|
+#
+# [!] Arcade by Blueva | https://blueva.net/store/blue-arcade [!]
 
-file_version: 3
+# Lucky Pillars Module Settings
 
 # Visual representation in menus
 menus:
   vote:
-    item: DIAMOND
+    item: "DIAMOND"
 
 waiting_items:
   vote_settings:
     enabled: true
-    material: NAME_TAG
+    material: "NAME_TAG"
     slot: 1
     display_name: "<aqua>Vote modifiers</aqua>"
     lore:
@@ -18,7 +24,7 @@ waiting_items:
 
 votes:
   defaults:
-    modifier: none
+    modifier: "none"
 
 game:
   # Set to 0 to disable a time limit

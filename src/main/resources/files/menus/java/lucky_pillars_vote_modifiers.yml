@@ -1,14 +1,21 @@
-file_version: 1
+#  ____  _               _                      _
+# | __ )| |_   _  ___   / \   _ __ ___ __ _  __| | ___
+# |  _ \| | | | |/ _ \ / _ \ | '__/ __/ _` |/ _` |/ _ \
+# | |_) | | |_| |  __// ___ \| | | (_| (_| | (_| |  __/
+# |____/|_|\__,_|\___/_/   \_|_|  \___\__,_|\__,_|\___|
+#
+# [!] Arcade by Blueva | https://blueva.net/store/blue-arcade [!]
+
 menuName: '<green>Lucky Pillars</green> <gray>-</gray> <yellow>Modifiers</yellow>'
 menuSize: 36
-type: CHEST
+type: "CHEST"
 
 items:
   none:
     slot: 10
     name: '<gray>None</gray>'
     itemStack:
-      material: BARRIER
+      material: "BARRIER"
       amount: 1
     lore:
       - '<gray>No modifiers.</gray>'
@@ -21,7 +28,7 @@ items:
     slot: 11
     name: '<aqua>Elytra</aqua>'
     itemStack:
-      material: ELYTRA
+      material: "ELYTRA"
       amount: 1
     lore:
       - '<gray>All players get an elytra.</gray>'
@@ -34,7 +41,7 @@ items:
     slot: 12
     name: '<light_purple>Swap Positions</light_purple>'
     itemStack:
-      material: ENDER_PEARL
+      material: "ENDER_PEARL"
       amount: 1
     lore:
       - '<gray>Swap positions every 15 seconds.</gray>'
@@ -47,7 +54,7 @@ items:
     slot: 13
     name: '<yellow>Speed</yellow>'
     itemStack:
-      material: CLOCK
+      material: "CLOCK"
       amount: 1
     lore:
       - '<gray>Faster random block drops.</gray>'
@@ -60,7 +67,7 @@ items:
     slot: 14
     name: '<white>Slow Fall</white>'
     itemStack:
-      material: FEATHER
+      material: "FEATHER"
       amount: 1
     lore:
       - '<gray>All players get slow falling.</gray>'
@@ -73,7 +80,7 @@ items:
     slot: 15
     name: '<gray>Invisibility</gray>'
     itemStack:
-      material: POTION
+      material: "POTION"
       amount: 1
     lore:
       - '<gray>All players are invisible for 30s.</gray>'
@@ -86,7 +93,7 @@ items:
     slot: 16
     name: '<gold>Double Health</gold>'
     itemStack:
-      material: GOLDEN_APPLE
+      material: "GOLDEN_APPLE"
       amount: 1
     lore:
       - '<gray>Everyone starts with 20 hearts.</gray>'
@@ -99,7 +106,7 @@ items:
     slot: 19
     name: '<red>1 Heart</red>'
     itemStack:
-      material: RED_DYE
+      material: "RED_DYE"
       amount: 1
     lore:
       - '<gray>Everyone plays with 1 heart.</gray>'
@@ -112,7 +119,7 @@ items:
     slot: 20
     name: '<dark_gray>Unbreakable</dark_gray>'
     itemStack:
-      material: OBSIDIAN
+      material: "OBSIDIAN"
       amount: 1
     lore:
       - '<gray>Blocks cannot be broken.</gray>'
@@ -125,7 +132,7 @@ items:
     slot: 21
     name: '<green>Ultra Jump</green>'
     itemStack:
-      material: RABBIT_FOOT
+      material: "RABBIT_FOOT"
       amount: 1
     lore:
       - '<gray>Everyone jumps much higher.</gray>'
@@ -138,7 +145,7 @@ items:
     slot: 31
     name: '<red>Close</red>'
     itemStack:
-      material: BARRIER
+      material: "BARRIER"
       amount: 1
     lore:
       - '<gray>Close this menu.</gray>'

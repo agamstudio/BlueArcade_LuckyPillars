@@ -1,37 +1,44 @@
-file_version: 1
+#  ____  _               _                      _
+# | __ )| |_   _  ___   / \   _ __ ___ __ _  __| | ___
+# |  _ \| | | | |/ _ \ / _ \ | '__/ __/ _` |/ _` |/ _ \
+# | |_) | | |_| |  __// ___ \| | | (_| (_| | (_| |  __/
+# |____/|_|\__,_|\___/_/   \_|_|  \___\__,_|\__,_|\___|
+#
+# [!] Arcade by Blueva | https://blueva.net/store/blue-arcade [!]
 
-default_cage: clear_glass
+
+default_cage: "clear_glass"
 
 cages:
   order:
-    - clear_glass
-    - white_glass
-    - orange_glass
-    - magenta_glass
-    - light_blue_glass
-    - yellow_glass
-    - lime_glass
-    - pink_glass
-    - gray_glass
-    - light_gray_glass
-    - cyan_glass
-    - purple_glass
-    - blue_glass
-    - brown_glass
-    - green_glass
-    - red_glass
-    - black_glass
-    - bricks
-    - diamond_block
-    - gold_block
-    - emerald_block
-    - redstone_block
-    - iron_block
-    - lapis_block
+    - "clear_glass"
+    - "white_glass"
+    - "orange_glass"
+    - "magenta_glass"
+    - "light_blue_glass"
+    - "yellow_glass"
+    - "lime_glass"
+    - "pink_glass"
+    - "gray_glass"
+    - "light_gray_glass"
+    - "cyan_glass"
+    - "purple_glass"
+    - "blue_glass"
+    - "brown_glass"
+    - "green_glass"
+    - "red_glass"
+    - "black_glass"
+    - "bricks"
+    - "diamond_block"
+    - "gold_block"
+    - "emerald_block"
+    - "redstone_block"
+    - "iron_block"
+    - "lapis_block"
   clear_glass:
     name: "Clear Glass"
-    icon: GLASS
-    material: GLASS
+    icon: "GLASS"
+    material: "GLASS"
     head_clear: false
     price: 0
     enabled: true
@@ -40,8 +47,8 @@ cages:
       - "<gray>Classic transparent glass cage.</gray>"
   white_glass:
     name: "White Glass"
-    icon: WHITE_STAINED_GLASS
-    material: WHITE_STAINED_GLASS
+    icon: "WHITE_STAINED_GLASS"
+    material: "WHITE_STAINED_GLASS"
     head_clear: false
     price: 50
     enabled: true
@@ -50,8 +57,8 @@ cages:
       - "<gray>Bright white stained glass.</gray>"
   orange_glass:
     name: "Orange Glass"
-    icon: ORANGE_STAINED_GLASS
-    material: ORANGE_STAINED_GLASS
+    icon: "ORANGE_STAINED_GLASS"
+    material: "ORANGE_STAINED_GLASS"
     head_clear: false
     price: 50
     enabled: true
@@ -60,8 +67,8 @@ cages:
       - "<gray>Warm orange stained glass.</gray>"
   magenta_glass:
     name: "Magenta Glass"
-    icon: MAGENTA_STAINED_GLASS
-    material: MAGENTA_STAINED_GLASS
+    icon: "MAGENTA_STAINED_GLASS"
+    material: "MAGENTA_STAINED_GLASS"
     head_clear: false
     price: 50
     enabled: true
@@ -70,8 +77,8 @@ cages:
       - "<gray>Bright magenta stained glass.</gray>"
   light_blue_glass:
     name: "Light Blue Glass"
-    icon: LIGHT_BLUE_STAINED_GLASS
-    material: LIGHT_BLUE_STAINED_GLASS
+    icon: "LIGHT_BLUE_STAINED_GLASS"
+    material: "LIGHT_BLUE_STAINED_GLASS"
     head_clear: false
     price: 50
     enabled: true
@@ -80,8 +87,8 @@ cages:
       - "<gray>Soft light blue stained glass.</gray>"
   yellow_glass:
     name: "Yellow Glass"
-    icon: YELLOW_STAINED_GLASS
-    material: YELLOW_STAINED_GLASS
+    icon: "YELLOW_STAINED_GLASS"
+    material: "YELLOW_STAINED_GLASS"
     head_clear: false
     price: 50
     enabled: true
@@ -90,8 +97,8 @@ cages:
       - "<gray>Bright yellow stained glass.</gray>"
   lime_glass:
     name: "Lime Glass"
-    icon: LIME_STAINED_GLASS
-    material: LIME_STAINED_GLASS
+    icon: "LIME_STAINED_GLASS"
+    material: "LIME_STAINED_GLASS"
     head_clear: false
     price: 50
     enabled: true
@@ -100,8 +107,8 @@ cages:
       - "<gray>Vivid lime stained glass.</gray>"
   pink_glass:
     name: "Pink Glass"
-    icon: PINK_STAINED_GLASS
-    material: PINK_STAINED_GLASS
+    icon: "PINK_STAINED_GLASS"
+    material: "PINK_STAINED_GLASS"
     head_clear: false
     price: 50
     enabled: true
@@ -110,8 +117,8 @@ cages:
       - "<gray>Soft pink stained glass.</gray>"
   gray_glass:
     name: "Gray Glass"
-    icon: GRAY_STAINED_GLASS
-    material: GRAY_STAINED_GLASS
+    icon: "GRAY_STAINED_GLASS"
+    material: "GRAY_STAINED_GLASS"
     head_clear: false
     price: 50
     enabled: true
@@ -120,8 +127,8 @@ cages:
       - "<gray>Neutral gray stained glass.</gray>"
   light_gray_glass:
     name: "Light Gray Glass"
-    icon: LIGHT_GRAY_STAINED_GLASS
-    material: LIGHT_GRAY_STAINED_GLASS
+    icon: "LIGHT_GRAY_STAINED_GLASS"
+    material: "LIGHT_GRAY_STAINED_GLASS"
     head_clear: false
     price: 50
     enabled: true
@@ -130,8 +137,8 @@ cages:
       - "<gray>Light gray stained glass.</gray>"
   cyan_glass:
     name: "Cyan Glass"
-    icon: CYAN_STAINED_GLASS
-    material: CYAN_STAINED_GLASS
+    icon: "CYAN_STAINED_GLASS"
+    material: "CYAN_STAINED_GLASS"
     head_clear: false
     price: 50
     enabled: true
@@ -140,8 +147,8 @@ cages:
       - "<gray>Cool cyan stained glass.</gray>"
   purple_glass:
     name: "Purple Glass"
-    icon: PURPLE_STAINED_GLASS
-    material: PURPLE_STAINED_GLASS
+    icon: "PURPLE_STAINED_GLASS"
+    material: "PURPLE_STAINED_GLASS"
     head_clear: false
     price: 50
     enabled: true
@@ -150,8 +157,8 @@ cages:
       - "<gray>Deep purple stained glass.</gray>"
   blue_glass:
     name: "Blue Glass"
-    icon: BLUE_STAINED_GLASS
-    material: BLUE_STAINED_GLASS
+    icon: "BLUE_STAINED_GLASS"
+    material: "BLUE_STAINED_GLASS"
     head_clear: false
     price: 50
     enabled: true
@@ -160,8 +167,8 @@ cages:
       - "<gray>Bold blue stained glass.</gray>"
   brown_glass:
     name: "Brown Glass"
-    icon: BROWN_STAINED_GLASS
-    material: BROWN_STAINED_GLASS
+    icon: "BROWN_STAINED_GLASS"
+    material: "BROWN_STAINED_GLASS"
     head_clear: false
     price: 50
     enabled: true
@@ -170,8 +177,8 @@ cages:
       - "<gray>Earthy brown stained glass.</gray>"
   green_glass:
     name: "Green Glass"
-    icon: GREEN_STAINED_GLASS
-    material: GREEN_STAINED_GLASS
+    icon: "GREEN_STAINED_GLASS"
+    material: "GREEN_STAINED_GLASS"
     head_clear: false
     price: 50
     enabled: true
@@ -180,8 +187,8 @@ cages:
       - "<gray>Bright green stained glass.</gray>"
   red_glass:
     name: "Red Glass"
-    icon: RED_STAINED_GLASS
-    material: RED_STAINED_GLASS
+    icon: "RED_STAINED_GLASS"
+    material: "RED_STAINED_GLASS"
     head_clear: false
     price: 50
     enabled: true
@@ -190,8 +197,8 @@ cages:
       - "<gray>Strong red stained glass.</gray>"
   black_glass:
     name: "Black Glass"
-    icon: BLACK_STAINED_GLASS
-    material: BLACK_STAINED_GLASS
+    icon: "BLACK_STAINED_GLASS"
+    material: "BLACK_STAINED_GLASS"
     head_clear: false
     price: 50
     enabled: true
@@ -200,8 +207,8 @@ cages:
       - "<gray>Dark black stained glass.</gray>"
   bricks:
     name: "Bricks"
-    icon: BRICKS
-    material: BRICKS
+    icon: "BRICKS"
+    material: "BRICKS"
     head_clear: true
     price: 150
     enabled: true
@@ -210,8 +217,8 @@ cages:
       - "<gray>Brick cage with a clear head view.</gray>"
   diamond_block:
     name: "Diamond"
-    icon: DIAMOND_BLOCK
-    material: DIAMOND_BLOCK
+    icon: "DIAMOND_BLOCK"
+    material: "DIAMOND_BLOCK"
     head_clear: true
     price: 200
     enabled: true
@@ -220,8 +227,8 @@ cages:
       - "<gray>Shiny diamond blocks around you.</gray>"
   gold_block:
     name: "Gold"
-    icon: GOLD_BLOCK
-    material: GOLD_BLOCK
+    icon: "GOLD_BLOCK"
+    material: "GOLD_BLOCK"
     head_clear: true
     price: 180
     enabled: true
@@ -230,8 +237,8 @@ cages:
       - "<gray>Gold blocks with open head space.</gray>"
   emerald_block:
     name: "Emerald"
-    icon: EMERALD_BLOCK
-    material: EMERALD_BLOCK
+    icon: "EMERALD_BLOCK"
+    material: "EMERALD_BLOCK"
     head_clear: true
     price: 180
     enabled: true
@@ -240,8 +247,8 @@ cages:
       - "<gray>Emerald cage for standout style.</gray>"
   redstone_block:
     name: "Redstone"
-    icon: REDSTONE_BLOCK
-    material: REDSTONE_BLOCK
+    icon: "REDSTONE_BLOCK"
+    material: "REDSTONE_BLOCK"
     head_clear: true
     price: 150
     enabled: true
@@ -250,8 +257,8 @@ cages:
       - "<gray>Redstone block cage with head view.</gray>"
   iron_block:
     name: "Iron"
-    icon: IRON_BLOCK
-    material: IRON_BLOCK
+    icon: "IRON_BLOCK"
+    material: "IRON_BLOCK"
     head_clear: true
     price: 140
     enabled: true
@@ -260,8 +267,8 @@ cages:
       - "<gray>Strong iron blocks with visibility.</gray>"
   lapis_block:
     name: "Lapis"
-    icon: LAPIS_BLOCK
-    material: LAPIS_BLOCK
+    icon: "LAPIS_BLOCK"
+    material: "LAPIS_BLOCK"
     head_clear: true
     price: 140
     enabled: true

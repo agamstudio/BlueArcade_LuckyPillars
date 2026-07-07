@@ -23,7 +23,7 @@
         <dependency>
             <groupId>com.github.BluevaDevelopment</groupId>
             <artifactId>BlueArcadeAPI</artifactId>
-            <version>3.3</version>
+            <version>3.4</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

@@ -1,0 +1,145 @@
+#  ____  _               _                      _
+# | __ )| |_   _  ___   / \   _ __ ___ __ _  __| | ___
+# |  _ \| | | | |/ _ \ / _ \ | '__/ __/ _` |/ _` |/ _ \
+# | |_) | | |_| |  __// ___ \| | | (_| (_| | (_| |  __/
+# |____/|_|\__,_|\___/_/   \_|_|  \___\__,_|\__,_|\___|
+#
+# [!] Arcade by Blueva | https://blueva.net/store/blue-arcade [!]
+
+# Pilares de la suerte Module - Spanish (ES)
+# Module-specific Spanish translations
+
+display_name: "Pilares de la suerte"
+
+description:
+  - "<dark_gray><strikethrough>----------------------------------------------</strikethrough></dark_gray>"
+  - "<green>Juego</green> <gray>-</gray> <yellow><bold>Pilares de la suerte</bold></yellow>"
+  - " "
+  - "<white>Descripción:</white>"
+  - "<gray>Aparece en pilares de bedrock y recibe objetos aleatorios.</gray>"
+  - "<gray>Usa estos objetos para eliminar rivales y sobrevivir.</gray>"
+  - " "
+  - "<dark_gray><strikethrough>----------------------------------------------</strikethrough></dark_gray>"
+
+vote_menu:
+  name: "<green>Pilares de la suerte</green>"
+  lore:
+    - "<gray>Aparece sobre pilares de bedrock.</gray>"
+    - "<gray>Consigue objetos aleatorios y elimina rivales.</gray>"
+    - ""
+    - "<white>{votes}</white> <gray>votos.</gray>"
+
+votes:
+  labels:
+    modifiers:
+      none: "None"
+      elytra: "Elytra"
+      swap: "Intercambiar posiciones"
+      speed: "Velocidad"
+      slow_fall: "Caída lenta"
+      invisibility: "Invisibilidad"
+      double_health: "Vida doble"
+      one_heart: "1 corazón"
+      unbreakable: "Irrompible"
+      ultra_jump: "Salto ultra"
+  messages:
+    broadcast: "<yellow>{player}</yellow> <gray>votó por</gray> <aqua>{modifier}</aqua> <yellow>({votes} votos)</yellow>"
+    selected:
+      sources:
+        popular: "por votación popular"
+        default: "por defecto"
+      modifier: "<gray>Seleccionado modifier:</gray> <gold>{modifier}</gold> <gray>{source}.</gray>"
+    invalid: "<red>Ese modificador no está disponible.</red>"
+    not_available: "<red>Solo puedes votar mientras esperas a que empiece la partida.</red>"
+    no_permission: "<red>No tienes permiso para votar por</red> <yellow>{modifier}</yellow><red>.</red>"
+
+stats:
+  descriptions:
+    wins: "LuckyPillars victorias"
+    games_played: "LuckyPillars partidas jugadas"
+    kills: "Rivales eliminados en LuckyPillars"
+  labels:
+    kills: "Eliminaciones"
+    games_played: "Lucky Pillars partidas jugadas"
+    wins: "Lucky Pillars victorias"
+
+messages:
+  eliminated: "<red>¡Has sido eliminado! Ahora eres espectador.</red>"
+  out_of_bounds: "<yellow>No puedes salir de la arena.</yellow>"
+  deaths:
+    killed_by_player:
+      - "<dark_red>✘</dark_red> <red>{victim}</red> <gray>fue eliminado por</gray> <yellow>{killer}</yellow><gray>.</gray>"
+      - "<dark_red>✘</dark_red> <yellow>{killer}</yellow> <gray>superó a</gray> <red>{victim}</red><gray>.</gray>"
+      - "<dark_red>✘</dark_red> <red>{victim}</red> <gray>cayó ante</gray> <yellow>{killer}</yellow><gray>.</gray>"
+      - "<dark_red>✘</dark_red> <yellow>{killer}</yellow> <gray>derrotó a</gray> <red>{victim}</red><gray>.</gray>"
+    generic:
+      - "<dark_red>✘</dark_red> <red>{victim}</red> <gray>no sobrevivió al caos.</gray>"
+      - "<dark_red>✘</dark_red> <red>{victim}</red> <gray>fue eliminado.</gray>"
+
+titles:
+  you_died:
+    title: "<red><bold>HAS MUERTO</bold></red>"
+    subtitle: "<gray>De vuelta al lobby.</gray>"
+  classified:
+    title: "<yellow><bold>ELIMINADO</bold></yellow>"
+    subtitle: "<gray>Tu escuadrón continúa sin ti.</gray>"
+
+scoreboard:
+  solo_team_label: "Solo"
+  event:
+    none: "None"
+    none_time: '-'
+    now: "Ahora"
+  default:
+    title: "<bold><gradient:aqua:light_purple>Blue Arcade</gradient></bold>"
+    lines:
+      - ""
+      - "<white>Arena:</white> <aqua>{arena}</aqua>"
+      - "<white>Juego:</white> <aqua>Pilares de la suerte</aqua>"
+      - ""
+      - "<white>Equipo:</white> <yellow>{team}</yellow>"
+      - "<white>Equipos vivos:</white> <green>{alive_teams}</green>"
+      - "<white>Jugadores vivos:</white> <green>{alive}</green>"
+      - "<white>Tus bajas:</white> <red>{kills}</red>"
+      - ""
+      - "<white>Siguiente bloque en:</white>"
+      - "<aqua>{next_block_time}</aqua>"
+      - ""
+      - "<yellow>www.blueva.net</yellow>"
+  solo:
+    title: "<bold><gradient:aqua:light_purple>Blue Arcade</gradient></bold>"
+    lines:
+      - ""
+      - "<white>Arena:</white> <aqua>{arena}</aqua>"
+      - "<white>Juego:</white> <aqua>Pilares de la suerte</aqua>"
+      - ""
+      - "<white>Jugadores vivos:</white> <green>{alive}</green>"
+      - "<white>Tus bajas:</white> <red>{kills}</red>"
+      - ""
+      - "<white>Siguiente bloque en:</white>"
+      - "<aqua>{next_block_time}</aqua>"
+      - ""
+      - "<yellow>www.blueva.net</yellow>"
+
+setup_messages:
+  team:
+    usage: "{prefix} <red>Uso:</red> <yellow>/baa game <id> lucky_pillars team <count|size> <value></yellow>"
+    success: "{prefix} <green>Equipo {setting} establecido en {value} para {game} en la arena {arena_id}.</green>"
+    invalid_limit: "{prefix} <red>La configuración de equipos supera el máximo de jugadores de la arena ({max_players}).</red>"
+    invalid_value: "{prefix} <red>Equipo {setting} debe ser mayor que 0.</red>"
+    invalid_count: "{prefix} <red>El número de equipos debe ser al menos 2.</red>"
+    numeric_ids_only: "{prefix} <red>El ID del equipo debe ser un número entre {min} y {max}.</red>"
+  team_spawn:
+    usage_add: "{prefix} <red>Uso:</red> <yellow>/baa game <id> lucky_pillars team spawn add</yellow>"
+    usage_set: "{prefix} <red>Uso:</red> <yellow>/baa game <id> lucky_pillars team spawn set <team_id></yellow>"
+    usage_remove: "{prefix} <red>Uso:</red> <yellow>/baa game <id> lucky_pillars team spawn remove <team_id></yellow>"
+    teams_not_configured: "{prefix} <red>El número de equipos aún no está configurado. Defínelo primero con <yellow>/baa game <id> lucky_pillars team count <n></yellow>.</red>"
+    added: "{prefix} <green>Aparición de equipo añadida para el hueco <white>{slot}/{count}</white> en tu ubicación actual.</green>"
+    all_slots_filled: "{prefix} <red>Los {count} huecos de aparición de equipo ya están ocupados.</red>"
+    set: "{prefix} <green>Aparición de equipo establecida para el equipo <white>{team}</white> en tu ubicación actual.</green>"
+    removed: "{prefix} <yellow>Aparición de equipo eliminada para el equipo <white>{team}</white>.</yellow>"
+  region:
+    usage: "{prefix} <red>Uso:</red> <yellow>/baa game <id> lucky_pillars region <set|clear></yellow>"
+    must_use_stick: "{prefix} <red>Selecciona primero dos esquinas con la herramienta de setup.</red>"
+    set: "{prefix} <green>Región de regeneración guardada.</green> <gray>Bloques:</gray> <white>{blocks}</white> <gray>({x}x{y}x{z})</gray>"
+    cleared: "{prefix} <yellow>Región de regeneración borrada.</yellow>"

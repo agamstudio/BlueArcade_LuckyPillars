@@ -1,65 +1,72 @@
-file_version: 1
+#  ____  _               _                      _
+# | __ )| |_   _  ___   / \   _ __ ___ __ _  __| | ___
+# |  _ \| | | | |/ _ \ / _ \ | '__/ __/ _` |/ _` |/ _ \
+# | |_) | | |_| |  __// ___ \| | | (_| (_| | (_| |  __/
+# |____/|_|\__,_|\___/_/   \_|_|  \___\__,_|\__,_|\___|
+#
+# [!] Arcade by Blueva | https://blueva.net/store/blue-arcade [!]
+
 
 categories:
-  - root
-  - kits
-  - cages
+  - "root"
+  - "kits"
+  - "cages"
 
 category_settings:
   root:
-    id: lucky_pillars_store
+    id: "lucky_pillars_store"
     name: "Lucky Pillars"
-    icon: DIAMOND
+    icon: "DIAMOND"
     description:
       - "<gray>Lucky Pillars cosmetics.</gray>"
       - "<gray>Unlock items once and use them in every arena.</gray>"
       - "<gray> </gray>"
       - "<yellow>Select a category below to begin.</yellow>"
     enabled: true
-    type: group
+    type: "group"
     selection_enabled: false
     sort_order: 10
     items:
       order: []
   kits:
-    id: lucky_pillars_kits
+    id: "lucky_pillars_kits"
     name: "Kits"
-    icon: CHEST
+    icon: "CHEST"
     description:
       - "<gray>Choose a kit to start the match.</gray>"
       - "<gray>Each kit includes unique items.</gray>"
       - "<gray> </gray>"
       - "<yellow>Pick a kit that fits your style.</yellow>"
     enabled: true
-    type: selection
-    parent_id: lucky_pillars_store
+    type: "selection"
+    parent_id: "lucky_pillars_store"
     selection_enabled: true
     random_selection_enabled: true
     random_item:
       display_name: "Random Kit"
-      icon: ENDER_CHEST
+      icon: "ENDER_CHEST"
       description:
         - "<gray>Select a random unlocked kit.</gray>"
     sort_order: 20
     items:
       order: []
   cages:
-    id: lucky_pillars_cages
+    id: "lucky_pillars_cages"
     name: "Spawn Cages"
-    icon: GLASS
+    icon: "GLASS"
     description:
       - "<gray>Customize the spawn cage appearance.</gray>"
       - "<gray>Glass and block variants are available.</gray>"
       - "<gray> </gray>"
       - "<yellow>Pick your favorite cage.</yellow>"
     enabled: true
-    type: selection
-    parent_id: lucky_pillars_store
+    type: "selection"
+    parent_id: "lucky_pillars_store"
     selection_enabled: true
     random_selection_enabled: true
     random_item:
       display_name: "Random Cage"
-      icon: ENDER_CHEST
+      icon: "ENDER_CHEST"
       description:
         - "<gray>Select a random unlocked cage.</gray>"
     sort_order: 30

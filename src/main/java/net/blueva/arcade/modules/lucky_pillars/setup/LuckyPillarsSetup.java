@@ -69,21 +69,21 @@ public class LuckyPillarsSetup implements GameSetupHandler {
     private boolean handleTeamConfig(SetupContext<Player, CommandSender, Location> context) {
         if (!context.hasHandlerArgs(2)) {
             context.getMessagesAPI().sendRaw(context.getPlayer(),
-                    getSetupMessage("team.usage"));
+                    getSetupMessage(context.getPlayer(), "team.usage"));
             return true;
         }
 
         String setting = context.getHandlerArg(0);
         if (setting == null || (!setting.equalsIgnoreCase("count") && !setting.equalsIgnoreCase("size"))) {
             context.getMessagesAPI().sendRaw(context.getPlayer(),
-                    getSetupMessage("team.usage"));
+                    getSetupMessage(context.getPlayer(), "team.usage"));
             return true;
         }
 
         String valueRaw = context.getHandlerArg(1);
         if (valueRaw == null || !isNumber(valueRaw)) {
             context.getMessagesAPI().sendRaw(context.getPlayer(),
-                    module.getCoreConfig().getLanguage("admin_commands.errors.invalid_number")
+                    module.getCoreConfig().getLanguage(context.getPlayer(), "admin_commands.errors.invalid_number")
                             .replace("{value}", valueRaw == null ? "" : valueRaw));
             return true;
         }
@@ -91,14 +91,14 @@ public class LuckyPillarsSetup implements GameSetupHandler {
         int value = Integer.parseInt(valueRaw);
         if (value <= 0) {
             context.getMessagesAPI().sendRaw(context.getPlayer(),
-                    getSetupMessage("team.invalid_value")
+                    getSetupMessage(context.getPlayer(), "team.invalid_value")
                             .replace("{setting}", setting));
             return true;
         }
 
         if (setting.equalsIgnoreCase("count") && value < 2) {
             context.getMessagesAPI().sendRaw(context.getPlayer(),
-                    getSetupMessage("team.invalid_count"));
+                    getSetupMessage(context.getPlayer(), "team.invalid_count"));
             return true;
         }
 
@@ -113,7 +113,7 @@ public class LuckyPillarsSetup implements GameSetupHandler {
         int maxPlayers = context.getData().getArenaInt("arena.basic.max_players", 0);
         if (teamCount > 0 && teamSize > 0 && maxPlayers > 0 && teamCount * teamSize > maxPlayers) {
             context.getMessagesAPI().sendRaw(context.getPlayer(),
-                    getSetupMessage("team.invalid_limit")
+                    getSetupMessage(context.getPlayer(), "team.invalid_limit")
                             .replace("{max_players}", String.valueOf(maxPlayers)));
             return true;
         }
@@ -122,7 +122,7 @@ public class LuckyPillarsSetup implements GameSetupHandler {
         context.getData().save();
 
         context.getMessagesAPI().sendRaw(context.getPlayer(),
-                getSetupMessage("team.success")
+                getSetupMessage(context.getPlayer(), "team.success")
                         .replace("{game}", context.getGameId())
                         .replace("{arena_id}", String.valueOf(context.getArenaId()))
                         .replace("{setting}", setting.toLowerCase())
@@ -143,27 +143,27 @@ public class LuckyPillarsSetup implements GameSetupHandler {
             return handleTeamSpawnRemove(context);
         }
 
-        context.getMessagesAPI().sendRaw(context.getPlayer(), getSetupMessage("team_spawn.usage_add"));
-        context.getMessagesAPI().sendRaw(context.getPlayer(), getSetupMessage("team_spawn.usage_set"));
-        context.getMessagesAPI().sendRaw(context.getPlayer(), getSetupMessage("team_spawn.usage_remove"));
+        context.getMessagesAPI().sendRaw(context.getPlayer(), getSetupMessage(context.getPlayer(), "team_spawn.usage_add"));
+        context.getMessagesAPI().sendRaw(context.getPlayer(), getSetupMessage(context.getPlayer(), "team_spawn.usage_set"));
+        context.getMessagesAPI().sendRaw(context.getPlayer(), getSetupMessage(context.getPlayer(), "team_spawn.usage_remove"));
         return true;
     }
 
     private boolean handleTeamSpawnRemove(SetupContext<Player, CommandSender, Location> context) {
         if (!context.hasHandlerArgs(3)) {
-            context.getMessagesAPI().sendRaw(context.getPlayer(), getSetupMessage("team_spawn.usage_remove"));
+            context.getMessagesAPI().sendRaw(context.getPlayer(), getSetupMessage(context.getPlayer(), "team_spawn.usage_remove"));
             return true;
         }
 
         int teamCount = context.getData().getInt("teams.count", 0);
         if (teamCount <= 0) {
-            context.getMessagesAPI().sendRaw(context.getPlayer(), getSetupMessage("team_spawn.teams_not_configured"));
+            context.getMessagesAPI().sendRaw(context.getPlayer(), getSetupMessage(context.getPlayer(), "team_spawn.teams_not_configured"));
             return true;
         }
 
         String teamId = normalizeTeamId(context.getHandlerArg(2));
         if (teamId == null) {
-            context.getMessagesAPI().sendRaw(context.getPlayer(), getSetupMessage("team_spawn.usage_remove"));
+            context.getMessagesAPI().sendRaw(context.getPlayer(), getSetupMessage(context.getPlayer(), "team_spawn.usage_remove"));
             sendTeamIdRangeMessage(context);
             return true;
         }
@@ -177,7 +177,7 @@ public class LuckyPillarsSetup implements GameSetupHandler {
         context.getData().remove(path);
         context.getData().save();
 
-        context.getMessagesAPI().sendRaw(context.getPlayer(), getSetupMessage("team_spawn.removed")
+        context.getMessagesAPI().sendRaw(context.getPlayer(), getSetupMessage(context.getPlayer(), "team_spawn.removed")
                 .replace("{team}", teamId));
         return true;
     }
@@ -185,7 +185,7 @@ public class LuckyPillarsSetup implements GameSetupHandler {
     private boolean handleTeamSpawnAdd(SetupContext<Player, CommandSender, Location> context) {
         int teamCount = context.getData().getInt("teams.count", 0);
         if (teamCount <= 0) {
-            context.getMessagesAPI().sendRaw(context.getPlayer(), getSetupMessage("team_spawn.teams_not_configured"));
+            context.getMessagesAPI().sendRaw(context.getPlayer(), getSetupMessage(context.getPlayer(), "team_spawn.teams_not_configured"));
             return true;
         }
 
@@ -205,7 +205,7 @@ public class LuckyPillarsSetup implements GameSetupHandler {
         }
 
         if (nextSlot == -1) {
-            context.getMessagesAPI().sendRaw(player, getSetupMessage("team_spawn.all_slots_filled")
+            context.getMessagesAPI().sendRaw(player, getSetupMessage(context.getPlayer(), "team_spawn.all_slots_filled")
                     .replace("{count}", String.valueOf(teamCount)));
             return true;
         }
@@ -214,7 +214,7 @@ public class LuckyPillarsSetup implements GameSetupHandler {
         context.getData().setLocation("game.play_area.team_spawns." + nextSlot, location);
         context.getData().save();
 
-        context.getMessagesAPI().sendRaw(player, getSetupMessage("team_spawn.added")
+        context.getMessagesAPI().sendRaw(player, getSetupMessage(context.getPlayer(), "team_spawn.added")
                 .replace("{slot}", String.valueOf(nextSlot))
                 .replace("{count}", String.valueOf(teamCount)));
         return true;
@@ -222,19 +222,19 @@ public class LuckyPillarsSetup implements GameSetupHandler {
 
     private boolean handleTeamSpawnSet(SetupContext<Player, CommandSender, Location> context) {
         if (!context.hasHandlerArgs(3)) {
-            context.getMessagesAPI().sendRaw(context.getPlayer(), getSetupMessage("team_spawn.usage_set"));
+            context.getMessagesAPI().sendRaw(context.getPlayer(), getSetupMessage(context.getPlayer(), "team_spawn.usage_set"));
             return true;
         }
 
         int teamCount = context.getData().getInt("teams.count", 0);
         if (teamCount <= 0) {
-            context.getMessagesAPI().sendRaw(context.getPlayer(), getSetupMessage("team_spawn.teams_not_configured"));
+            context.getMessagesAPI().sendRaw(context.getPlayer(), getSetupMessage(context.getPlayer(), "team_spawn.teams_not_configured"));
             return true;
         }
 
         String teamId = normalizeTeamId(context.getHandlerArg(2));
         if (teamId == null) {
-            context.getMessagesAPI().sendRaw(context.getPlayer(), getSetupMessage("team_spawn.usage_set"));
+            context.getMessagesAPI().sendRaw(context.getPlayer(), getSetupMessage(context.getPlayer(), "team_spawn.usage_set"));
             sendTeamIdRangeMessage(context);
             return true;
         }
@@ -254,7 +254,7 @@ public class LuckyPillarsSetup implements GameSetupHandler {
         context.getData().setLocation(path, location);
         context.getData().save();
 
-        context.getMessagesAPI().sendRaw(player, getSetupMessage("team_spawn.set")
+        context.getMessagesAPI().sendRaw(player, getSetupMessage(context.getPlayer(), "team_spawn.set")
                 .replace("{team}", teamId));
         return true;
     }
@@ -300,7 +300,7 @@ public class LuckyPillarsSetup implements GameSetupHandler {
         int teamCount = context.getData().getInt("teams.count", 0);
         String max = teamCount > 0 ? String.valueOf(teamCount) : "N";
         context.getMessagesAPI().sendRaw(context.getPlayer(),
-                getSetupMessage("team.numeric_ids_only")
+                getSetupMessage(context.getPlayer(), "team.numeric_ids_only")
                         .replace("{min}", "1")
                         .replace("{max}", max));
     }
@@ -308,14 +308,14 @@ public class LuckyPillarsSetup implements GameSetupHandler {
     private boolean handleRegion(SetupContext<Player, CommandSender, Location> context) {
         if (!context.hasHandlerArgs(1)) {
             context.getMessagesAPI().sendRaw(context.getPlayer(),
-                    getSetupMessage("region.usage"));
+                    getSetupMessage(context.getPlayer(), "region.usage"));
             return true;
         }
 
         String action = context.getHandlerArg(0);
         if (action == null) {
             context.getMessagesAPI().sendRaw(context.getPlayer(),
-                    getSetupMessage("region.usage"));
+                    getSetupMessage(context.getPlayer(), "region.usage"));
             return true;
         }
 
@@ -324,13 +324,13 @@ public class LuckyPillarsSetup implements GameSetupHandler {
             context.getData().remove("regeneration.regions");
             context.getData().save();
             context.getMessagesAPI().sendRaw(context.getPlayer(),
-                    getSetupMessage("region.cleared"));
+                    getSetupMessage(context.getPlayer(), "region.cleared"));
             return true;
         }
 
         if (!"set".equalsIgnoreCase(action)) {
             context.getMessagesAPI().sendRaw(context.getPlayer(),
-                    getSetupMessage("region.usage"));
+                    getSetupMessage(context.getPlayer(), "region.usage"));
             return true;
         }
 
@@ -341,7 +341,7 @@ public class LuckyPillarsSetup implements GameSetupHandler {
 
         if (!context.getSelection().hasCompleteSelection(player)) {
             context.getMessagesAPI().sendRaw(player,
-                    getSetupMessage("region.must_use_stick"));
+                    getSetupMessage(context.getPlayer(), "region.must_use_stick"));
             return true;
         }
 
@@ -357,7 +357,7 @@ public class LuckyPillarsSetup implements GameSetupHandler {
         int blocks = x * y * z;
 
         context.getMessagesAPI().sendRaw(player,
-                getSetupMessage("region.set")
+                getSetupMessage(context.getPlayer(), "region.set")
                         .replace("{blocks}", String.valueOf(blocks))
                         .replace("{x}", String.valueOf(x))
                         .replace("{y}", String.valueOf(y))
@@ -365,8 +365,8 @@ public class LuckyPillarsSetup implements GameSetupHandler {
         return true;
     }
 
-    private String getSetupMessage(String key) {
-        String message = module.getModuleConfig().getStringFrom("language.yml", "setup_messages." + key);
+    private String getSetupMessage(Player player, String key) {
+        String message = module.getModuleConfig().getTranslation(player, "setup_messages." + key);
         if (message == null) {
             return "";
         }

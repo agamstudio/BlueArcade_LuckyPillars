@@ -1,10 +1,17 @@
-file_version: 1
+#  ____  _               _                      _
+# | __ )| |_   _  ___   / \   _ __ ___ __ _  __| | ___
+# |  _ \| | | | |/ _ \ / _ \ | '__/ __/ _` |/ _` |/ _ \
+# | |_) | | |_| |  __// ___ \| | | (_| (_| | (_| |  __/
+# |____/|_|\__,_|\___/_/   \_|_|  \___\__,_|\__,_|\___|
+#
+# [!] Arcade by Blueva | https://blueva.net/store/blue-arcade [!]
+
 category:
-  id: lucky_pillars
+  id: "lucky_pillars"
   name: "Lucky Pillars"
   description:
     - "Achievements tied to Lucky Pillars."
-  icon: DRAGON_HEAD
+  icon: "DRAGON_HEAD"
   sort_order: 22
 
 achievements:
@@ -12,7 +19,7 @@ achievements:
     name: "Skybound"
     description:
       - "Play Lucky Pillars matches."
-    icon: DRAGON_HEAD
+    icon: "DRAGON_HEAD"
     phases:
       1:
         name: "First flight"
@@ -84,7 +91,7 @@ achievements:
     name: "Eliminator"
     description:
       - "Eliminate opponents."
-    icon: DIAMOND_SWORD
+    icon: "DIAMOND_SWORD"
     phases:
       1:
         name: "Opening strike"
@@ -156,7 +163,7 @@ achievements:
     name: "Winner Path"
     description:
       - "Win Lucky Pillars matches."
-    icon: NETHER_STAR
+    icon: "NETHER_STAR"
     phases:
       1:
         name: "First Crown"

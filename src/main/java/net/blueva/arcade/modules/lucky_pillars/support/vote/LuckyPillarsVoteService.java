@@ -258,7 +258,7 @@ public class LuckyPillarsVoteService {
                 return true;
             }
             if (!hasModifierPermission(player, modifier)) {
-                String message = moduleConfig.getStringFrom("language.yml", "votes.messages.no_permission");
+                String message = moduleConfig.getTranslation(player, "votes.messages.no_permission");
                 if (message != null) {
                     message = message.replace("{modifier}", getModifierLabel(modifier));
                     context.getMessagesAPI().sendRaw(player, message);
@@ -276,7 +276,7 @@ public class LuckyPillarsVoteService {
 
             if (!modifier.equals(previousVote)) {
                 String modifierLabel = getModifierLabel(modifier);
-                String message = moduleConfig.getStringFrom("language.yml", "votes.messages.broadcast");
+                String message = moduleConfig.getTranslation(player, "votes.messages.broadcast");
                 if (message != null && !message.isBlank()) {
                     int voteCount = voteState.getVotes(modifier);
                     message = message.replace("{player}", player.getName())
@@ -367,10 +367,10 @@ public class LuckyPillarsVoteService {
         String modifierLabel = getModifierLabel(modifier);
         
         String source = voteState.hasVotes() ? 
-                moduleConfig.getStringFrom("language.yml", "votes.messages.selected.sources.popular", "by popular vote") :
-                moduleConfig.getStringFrom("language.yml", "votes.messages.selected.sources.default", "by default");
+                moduleConfig.getTranslation(null, "votes.messages.selected.sources.popular") :
+                moduleConfig.getTranslation(null, "votes.messages.selected.sources.default");
         
-        String message = moduleConfig.getStringFrom("language.yml", "votes.messages.selected.modifier");
+        String message = moduleConfig.getTranslation(null, "votes.messages.selected.modifier");
         if (message != null && !message.isBlank()) {
             message = message.replace("{modifier}", modifierLabel)
                     .replace("{source}", source);
@@ -383,7 +383,7 @@ public class LuckyPillarsVoteService {
             return;
         }
 
-        String message = moduleConfig.getStringFrom("language.yml", "votes.messages.broadcast");
+        String message = moduleConfig.getTranslation(player, "votes.messages.broadcast");
         if (message == null || message.isBlank()) {
             return;
         }
@@ -539,7 +539,7 @@ public class LuckyPillarsVoteService {
         if (modifier == null) {
             return "";
         }
-        String label = moduleConfig.getStringFrom("language.yml", "votes.labels.modifiers." + modifier.toLowerCase(Locale.ROOT));
+        String label = moduleConfig.getTranslation(null, "votes.labels.modifiers." + modifier.toLowerCase(Locale.ROOT));
         return label != null ? label : modifier;
     }
 
@@ -556,7 +556,7 @@ public class LuckyPillarsVoteService {
         if (context == null || player == null || messagePath == null) {
             return;
         }
-        String message = moduleConfig.getStringFrom("language.yml", messagePath);
+        String message = moduleConfig.getTranslation(player, messagePath);
         if (message != null && !message.isBlank()) {
             context.getMessagesAPI().sendRaw(player, message);
         }

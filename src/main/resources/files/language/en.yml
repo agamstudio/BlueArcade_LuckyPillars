@@ -1,7 +1,13 @@
+#  ____  _               _                      _
+# | __ )| |_   _  ___   / \   _ __ ___ __ _  __| | ___
+# |  _ \| | | | |/ _ \ / _ \ | '__/ __/ _` |/ _` |/ _ \
+# | |_) | | |_| |  __// ___ \| | | (_| (_| | (_| |  __/
+# |____/|_|\__,_|\___/_/   \_|_|  \___\__,_|\__,_|\___|
+#
+# [!] Arcade by Blueva | https://blueva.net/store/blue-arcade [!]
+
 # Lucky Pillars Module - English (UK)
 # Only Lucky Pillars-specific content
-
-file_version: 5
 display_name: "Lucky Pillars"
 
 description:
@@ -118,23 +124,23 @@ scoreboard:
 
 setup_messages:
   team:
-    usage: "<red>Usage:</red> <yellow>/baa game <id> lucky_pillars team <count|size> <value></yellow>"
-    success: "<green>Team {setting} set to {value} for {game} in arena {arena_id}.</green>"
-    invalid_limit: "<red>Team configuration exceeds arena max players ({max_players}).</red>"
-    invalid_value: "<red>Team {setting} must be greater than 0.</red>"
-    invalid_count: "<red>Team count must be at least 2.</red>"
-    numeric_ids_only: "<red>Team ID must be a number between {min} and {max}.</red>"
+    usage: "{prefix} <red>Usage:</red> <yellow>/baa game <id> lucky_pillars team <count|size> <value></yellow>"
+    success: "{prefix} <green>Team {setting} set to {value} for {game} in arena {arena_id}.</green>"
+    invalid_limit: "{prefix} <red>Team configuration exceeds arena max players ({max_players}).</red>"
+    invalid_value: "{prefix} <red>Team {setting} must be greater than 0.</red>"
+    invalid_count: "{prefix} <red>Team count must be at least 2.</red>"
+    numeric_ids_only: "{prefix} <red>Team ID must be a number between {min} and {max}.</red>"
   team_spawn:
-    usage_add: "<red>Usage:</red> <yellow>/baa game <id> lucky_pillars team spawn add</yellow>"
-    usage_set: "<red>Usage:</red> <yellow>/baa game <id> lucky_pillars team spawn set <team_id></yellow>"
-    usage_remove: "<red>Usage:</red> <yellow>/baa game <id> lucky_pillars team spawn remove <team_id></yellow>"
-    teams_not_configured: "<red>Team count is not configured yet. Set it first with <yellow>/baa game <id> lucky_pillars team count <n></yellow>.</red>"
-    added: "<green>Team spawn added for slot <white>{slot}/{count}</white> at your current location.</green>"
-    all_slots_filled: "<red>All {count} team spawn slots are already filled.</red>"
-    set: "<green>Team spawn set for team <white>{team}</white> at your current location.</green>"
-    removed: "<yellow>Team spawn removed for team <white>{team}</white>.</yellow>"
+    usage_add: "{prefix} <red>Usage:</red> <yellow>/baa game <id> lucky_pillars team spawn add</yellow>"
+    usage_set: "{prefix} <red>Usage:</red> <yellow>/baa game <id> lucky_pillars team spawn set <team_id></yellow>"
+    usage_remove: "{prefix} <red>Usage:</red> <yellow>/baa game <id> lucky_pillars team spawn remove <team_id></yellow>"
+    teams_not_configured: "{prefix} <red>Team count is not configured yet. Set it first with <yellow>/baa game <id> lucky_pillars team count <n></yellow>.</red>"
+    added: "{prefix} <green>Team spawn added for slot <white>{slot}/{count}</white> at your current location.</green>"
+    all_slots_filled: "{prefix} <red>All {count} team spawn slots are already filled.</red>"
+    set: "{prefix} <green>Team spawn set for team <white>{team}</white> at your current location.</green>"
+    removed: "{prefix} <yellow>Team spawn removed for team <white>{team}</white>.</yellow>"
   region:
-    usage: "<red>Usage:</red> <yellow>/baa game <id> lucky_pillars region <set|clear></yellow>"
-    must_use_stick: "<red>Select two corners with the setup tool first.</red>"
-    set: "<green>Regeneration region saved.</green> <gray>Blocks:</gray> <white>{blocks}</white> <gray>({x}x{y}x{z})</gray>"
-    cleared: "<yellow>Regeneration region cleared.</yellow>"
+    usage: "{prefix} <red>Usage:</red> <yellow>/baa game <id> lucky_pillars region <set|clear></yellow>"
+    must_use_stick: "{prefix} <red>Select two corners with the setup tool first.</red>"
+    set: "{prefix} <green>Regeneration region saved.</green> <gray>Blocks:</gray> <white>{blocks}</white> <gray>({x}x{y}x{z})</gray>"
+    cleared: "{prefix} <yellow>Regeneration region cleared.</yellow>"

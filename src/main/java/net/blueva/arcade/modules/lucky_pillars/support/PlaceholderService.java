@@ -44,69 +44,69 @@ public class PlaceholderService {
                 TeamInfo<Player, Material> team = teamsAPI.getTeam(player);
                 placeholders.put("team", team != null ? team.getDisplayName() : "-");
             } else {
-                String teamLabel = moduleConfig.getStringFrom("language.yml", "scoreboard.solo_team_label");
+                String teamLabel = moduleConfig.getTranslation(player, "scoreboard.solo_team_label");
                 placeholders.put("team", teamLabel == null ? "" : teamLabel);
             }
 
             ArenaState state = game.getArenaState(context);
             if (state != null) {
-                placeholders.put("next_event", resolveNextEventLabel(state));
-                placeholders.put("next_event_time", resolveNextEventTime(state));
-                placeholders.put("next_block_time", resolveNextBlockTime(state));
+                placeholders.put("next_event", resolveNextEventLabel(player, state));
+                placeholders.put("next_event_time", resolveNextEventTime(player, state));
+                placeholders.put("next_block_time", resolveNextBlockTime(player, state));
             }
         }
 
         return placeholders;
     }
 
-    private String resolveNextEventLabel(ArenaState state) {
+    private String resolveNextEventLabel(Player player, ArenaState state) {
         if (state == null) {
-            String none = moduleConfig.getStringFrom("language.yml", "scoreboard.event.none");
+            String none = moduleConfig.getTranslation(player, "scoreboard.event.none");
             return none == null ? "" : none;
         }
         ArenaState.ScheduledEvent event = state.getNextEvent();
         if (event == null) {
-            String none = moduleConfig.getStringFrom("language.yml", "scoreboard.event.none");
+            String none = moduleConfig.getTranslation(player, "scoreboard.event.none");
             return none == null ? "" : none;
         }
         String label = event.getLabel();
         if (label == null || label.isBlank()) {
-            String none = moduleConfig.getStringFrom("language.yml", "scoreboard.event.none");
+            String none = moduleConfig.getTranslation(player, "scoreboard.event.none");
             return none == null ? "" : none;
         }
         return label;
     }
 
-    private String resolveNextEventTime(ArenaState state) {
+    private String resolveNextEventTime(Player player, ArenaState state) {
         if (state == null) {
-            String noneTime = moduleConfig.getStringFrom("language.yml", "scoreboard.event.none_time");
+            String noneTime = moduleConfig.getTranslation(player, "scoreboard.event.none_time");
             return noneTime == null ? "" : noneTime;
         }
         int seconds = state.getSecondsUntilNextEvent();
         if (seconds < 0) {
-            String noneTime = moduleConfig.getStringFrom("language.yml", "scoreboard.event.none_time");
+            String noneTime = moduleConfig.getTranslation(player, "scoreboard.event.none_time");
             return noneTime == null ? "" : noneTime;
         }
         if (seconds <= 0) {
-            String now = moduleConfig.getStringFrom("language.yml", "scoreboard.event.now");
+            String now = moduleConfig.getTranslation(player, "scoreboard.event.now");
             return now == null ? "" : now;
         }
         return formatTime(seconds);
     }
 
-    private String resolveNextBlockTime(ArenaState state) {
+    private String resolveNextBlockTime(Player player, ArenaState state) {
         if (state == null) {
-            String noneTime = moduleConfig.getStringFrom("language.yml", "scoreboard.event.none_time");
+            String noneTime = moduleConfig.getTranslation(player, "scoreboard.event.none_time");
             return noneTime == null ? "" : noneTime;
         }
 
         int seconds = state.getSecondsUntilNextBlockDrop();
         if (seconds < 0) {
-            String noneTime = moduleConfig.getStringFrom("language.yml", "scoreboard.event.none_time");
+            String noneTime = moduleConfig.getTranslation(player, "scoreboard.event.none_time");
             return noneTime == null ? "" : noneTime;
         }
         if (seconds <= 0) {
-            String now = moduleConfig.getStringFrom("language.yml", "scoreboard.event.now");
+            String now = moduleConfig.getTranslation(player, "scoreboard.event.now");
             return now == null ? "" : now;
         }
         return formatTime(seconds);
@@ -115,7 +115,7 @@ public class PlaceholderService {
     private String formatTime(int seconds) {
         int minutes = Math.max(0, seconds) / 60;
         int remainingSeconds = Math.max(0, seconds) % 60;
-        return String.format("%d:%02d", minutes, remainingSeconds);
+        return String.format("%02d:%02d", minutes, remainingSeconds);
     }
 
     public List<Player> getPlayersSortedByKills(

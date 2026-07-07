@@ -22,12 +22,11 @@ public class DescriptionService {
     }
 
     public void sendDescription(GameContext<Player, Location, World, Material, ItemStack, Sound, Block, Entity> context) {
-        List<String> description = moduleConfig.getStringListFrom("language.yml", "description");
-        if (description == null || description.isEmpty()) {
-            return;
-        }
-
         for (Player player : context.getPlayers()) {
+            List<String> description = moduleConfig.getTranslationList(player, "description");
+            if (description == null || description.isEmpty()) {
+                continue;
+            }
             for (String line : description) {
                 context.getMessagesAPI().sendRaw(player, line);
             }
