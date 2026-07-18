@@ -52,6 +52,7 @@ votes:
     invalid: "<red>Ese modificador no está disponible.</red>"
     not_available: "<red>Solo puedes votar mientras esperas a que empiece la partida.</red>"
     no_permission: "<red>No tienes permiso para votar por</red> <yellow>{modifier}</yellow><red>.</red>"
+    cooldown: "<red>Debes esperar {time} segundos para volver a votar.</red>"
 
 stats:
   descriptions:

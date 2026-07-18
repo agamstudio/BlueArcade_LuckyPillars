@@ -25,6 +25,8 @@ waiting_items:
 votes:
   defaults:
     modifier: "none"
+  # Seconds a player must wait between votes (0 to disable)
+  cooldown_seconds: 5
 
 game:
   # Set to 0 to disable a time limit

@@ -52,6 +52,7 @@ public class LuckyPillarsVoteService {
     private final String moduleId;
     private final LuckyPillarsVoteMenuRepository menuRepository;
     private final Map<Integer, VoteState> waitingVoteStates = new ConcurrentHashMap<>();
+    private final Map<UUID, Long> voteCooldowns = new ConcurrentHashMap<>();
     private LuckyPillarsGame game;
 
     public LuckyPillarsVoteService(ModuleConfigAPI moduleConfig,
@@ -89,6 +90,7 @@ public class LuckyPillarsVoteService {
     }
 
     public void clearWaitingVote(int arenaId, UUID playerId) {
+        voteCooldowns.remove(playerId);
         VoteState state = waitingVoteStates.get(arenaId);
         if (state == null) {
             return;
@@ -159,6 +161,7 @@ public class LuckyPillarsVoteService {
             if (modifier != null) {
                 voteState.castVote(player.getUniqueId(), modifier);
             }
+            voteCooldowns.remove(player.getUniqueId());
         }
         waitingVoteStates.remove(arenaId);
     }
@@ -271,8 +274,16 @@ public class LuckyPillarsVoteService {
                 return true;
             }
 
+            long cooldownRemaining = getRemainingVoteCooldownSeconds(player.getUniqueId());
+            if (cooldownRemaining > 0) {
+                sendMessage(context, player, "votes.messages.cooldown",
+                        "{time}", String.valueOf(cooldownRemaining));
+                return true;
+            }
+
             String previousVote = voteState.getPlayerVote(player.getUniqueId());
             voteState.castVote(player.getUniqueId(), modifier);
+            voteCooldowns.put(player.getUniqueId(), System.currentTimeMillis());
 
             if (!modifier.equals(previousVote)) {
                 String modifierLabel = getModifierLabel(modifier);
@@ -327,8 +338,18 @@ public class LuckyPillarsVoteService {
                 return true;
             }
 
+            long cooldownRemaining = getRemainingVoteCooldownSeconds(player.getUniqueId());
+            if (cooldownRemaining > 0) {
+                String message = moduleConfig.getTranslation(player, "votes.messages.cooldown");
+                if (message != null && !message.isBlank()) {
+                    sendWaitingBroadcast(player, message.replace("{time}", String.valueOf(cooldownRemaining)));
+                }
+                return openMenuWaiting(player);
+            }
+
             String previousVote = waiting.getPlayerVote(player.getUniqueId());
             waiting.castVote(player.getUniqueId(), modifier);
+            voteCooldowns.put(player.getUniqueId(), System.currentTimeMillis());
             if (!modifier.equals(previousVote)) {
                 broadcastWaitingVote(player, modifier, waiting);
             }
@@ -527,6 +548,33 @@ public class LuckyPillarsVoteService {
         return modifier != null && MODIFIER_OPTIONS.contains(modifier.toLowerCase(Locale.ROOT));
     }
 
+    private long getVoteCooldownMillis() {
+        if (moduleConfig == null) {
+            return 0;
+        }
+        int seconds = moduleConfig.getInt("votes.cooldown_seconds", 5);
+        return seconds <= 0 ? 0 : seconds * 1000L;
+    }
+
+    private long getRemainingVoteCooldownSeconds(UUID playerId) {
+        if (playerId == null) {
+            return 0;
+        }
+        long cooldownMillis = getVoteCooldownMillis();
+        if (cooldownMillis <= 0) {
+            return 0;
+        }
+        Long lastVote = voteCooldowns.get(playerId);
+        if (lastVote == null) {
+            return 0;
+        }
+        long remainingMillis = cooldownMillis - (System.currentTimeMillis() - lastVote);
+        if (remainingMillis <= 0) {
+            return 0;
+        }
+        return (remainingMillis + 999) / 1000;
+    }
+
     private boolean hasModifierPermission(Player player, String modifier) {
         if (player == null || modifier == null) {
             return false;
@@ -552,12 +600,15 @@ public class LuckyPillarsVoteService {
     }
 
     private void sendMessage(GameContext<Player, Location, World, Material, ItemStack, Sound, Block, Entity> context,
-                            Player player, String messagePath) {
+                            Player player, String messagePath, String... replacements) {
         if (context == null || player == null || messagePath == null) {
             return;
         }
         String message = moduleConfig.getTranslation(player, messagePath);
         if (message != null && !message.isBlank()) {
+            for (int i = 0; i + 1 < replacements.length; i += 2) {
+                message = message.replace(replacements[i], replacements[i + 1]);
+            }
             context.getMessagesAPI().sendRaw(player, message);
         }
     }
