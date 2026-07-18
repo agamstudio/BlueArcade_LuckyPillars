@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import net.blueva.arcade.api.ModuleAPI;
 import net.blueva.arcade.api.config.CoreConfigAPI;
+import net.blueva.arcade.api.config.DataAccess;
 import net.blueva.arcade.api.config.ModuleConfigAPI;
 import net.blueva.arcade.api.game.GameContext;
 import net.blueva.arcade.api.game.GamePhase;
@@ -963,6 +964,9 @@ public class LuckyPillarsGame {
             case "ultra_jump":
                 applyUltraJumpModifier(players);
                 break;
+            case "rising_lava":
+                startRisingLava(context, state);
+                break;
         }
     }
 
@@ -1085,6 +1089,119 @@ public class LuckyPillarsGame {
                         false,
                         false
                 ));
+            }
+        }
+    }
+
+    /**
+     * Starts the rising lava modifier: lava fills one full layer of the play area
+     * every configured interval, starting from the lowest layer.
+     */
+    private void startRisingLava(GameContext<Player, Location, World, Material, ItemStack, Sound, Block, Entity> context,
+                                 ArenaState state) {
+        World world = context.getArenaAPI() != null ? context.getArenaAPI().getWorld() : null;
+        if (world == null) {
+            return;
+        }
+
+        int intervalSeconds = moduleConfig.getInt("modifiers.rising_lava.rise_interval_seconds", 30);
+        if (intervalSeconds <= 0) {
+            return;
+        }
+
+        int[] bounds = resolveRisingLavaBounds(context);
+        if (bounds == null) {
+            Bukkit.getLogger().warning("[LuckyPillars] Rising lava modifier skipped in arena "
+                    + context.getArenaId() + ": no play area region configured.");
+            return;
+        }
+
+        int minX = bounds[0];
+        int minZ = bounds[2];
+        int maxX = bounds[3];
+        int maxZ = bounds[5];
+        int startY = Math.max(bounds[1], world.getMinHeight());
+        int endY = Math.min(bounds[4], world.getMaxHeight() - 1);
+        if (startY > endY) {
+            return;
+        }
+
+        long layerBlocks = (long) (maxX - minX + 1) * (long) (maxZ - minZ + 1);
+        int maxLayerBlocks = moduleConfig.getInt("modifiers.rising_lava.max_layer_blocks", 100000);
+        if (maxLayerBlocks > 0 && layerBlocks > maxLayerBlocks) {
+            Bukkit.getLogger().warning("[LuckyPillars] Rising lava modifier skipped in arena "
+                    + context.getArenaId() + ": layer size " + layerBlocks
+                    + " blocks exceeds the limit of " + maxLayerBlocks + ".");
+            return;
+        }
+
+        int arenaId = context.getArenaId();
+        String taskId = "arena_" + arenaId + "_rising_lava";
+        long intervalTicks = intervalSeconds * 20L;
+        int[] currentY = {startY};
+
+        fillLavaLayer(world, minX, maxX, minZ, maxZ, currentY[0]++);
+
+        context.getSchedulerAPI().runTimer(taskId, () -> {
+            if (currentY[0] > endY) {
+                context.getSchedulerAPI().cancelTask(taskId);
+                return;
+            }
+            fillLavaLayer(world, minX, maxX, minZ, maxZ, currentY[0]++);
+        }, intervalTicks, intervalTicks);
+    }
+
+    /**
+     * Resolves the play area bounds ({@code game.play_area.bounds}) configured during
+     * arena setup. Falls back to the arena bounds when no play area was saved.
+     * Returns {@code [minX, minY, minZ, maxX, maxY, maxZ]} or null when unavailable.
+     */
+    private int[] resolveRisingLavaBounds(GameContext<Player, Location, World, Material, ItemStack, Sound, Block, Entity> context) {
+        DataAccess<Location> dataAccess = context.getDataAccess();
+        if (dataAccess != null) {
+            Double minX = dataAccess.getGameData("game.play_area.bounds.min.x", Double.class);
+            Double minY = dataAccess.getGameData("game.play_area.bounds.min.y", Double.class);
+            Double minZ = dataAccess.getGameData("game.play_area.bounds.min.z", Double.class);
+            Double maxX = dataAccess.getGameData("game.play_area.bounds.max.x", Double.class);
+            Double maxY = dataAccess.getGameData("game.play_area.bounds.max.y", Double.class);
+            Double maxZ = dataAccess.getGameData("game.play_area.bounds.max.z", Double.class);
+            if (minX != null && minY != null && minZ != null && maxX != null && maxY != null && maxZ != null) {
+                return new int[]{
+                        (int) Math.floor(minX), (int) Math.floor(minY), (int) Math.floor(minZ),
+                        (int) Math.floor(maxX), (int) Math.floor(maxY), (int) Math.floor(maxZ)
+                };
+            }
+        }
+
+        if (context.getArenaAPI() == null) {
+            return null;
+        }
+        Location boundsMin = context.getArenaAPI().getBoundsMin();
+        Location boundsMax = context.getArenaAPI().getBoundsMax();
+        if (boundsMin == null || boundsMax == null) {
+            return null;
+        }
+        return new int[]{
+                Math.min(boundsMin.getBlockX(), boundsMax.getBlockX()),
+                Math.min(boundsMin.getBlockY(), boundsMax.getBlockY()),
+                Math.min(boundsMin.getBlockZ(), boundsMax.getBlockZ()),
+                Math.max(boundsMin.getBlockX(), boundsMax.getBlockX()),
+                Math.max(boundsMin.getBlockY(), boundsMax.getBlockY()),
+                Math.max(boundsMin.getBlockZ(), boundsMax.getBlockZ())
+        };
+    }
+
+    private void fillLavaLayer(World world, int minX, int maxX, int minZ, int maxZ, int y) {
+        for (int x = minX; x <= maxX; x++) {
+            for (int z = minZ; z <= maxZ; z++) {
+                if (!world.isChunkLoaded(x >> 4, z >> 4)) {
+                    continue;
+                }
+                Block block = world.getBlockAt(x, y, z);
+                if (block.getType() == Material.AIR) {
+                    // Physics disabled so the lava stays in place instead of flowing
+                    block.setType(Material.LAVA, false);
+                }
             }
         }
     }

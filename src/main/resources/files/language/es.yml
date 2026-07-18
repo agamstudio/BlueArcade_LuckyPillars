@@ -42,6 +42,7 @@ votes:
       one_heart: "1 corazón"
       unbreakable: "Irrompible"
       ultra_jump: "Salto ultra"
+      rising_lava: "Lava ascendente"
   messages:
     broadcast: "<yellow>{player}</yellow> <gray>votó por</gray> <aqua>{modifier}</aqua> <yellow>({votes} votos)</yellow>"
     selected:

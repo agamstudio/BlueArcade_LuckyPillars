@@ -28,6 +28,13 @@ votes:
   # Seconds a player must wait between votes (0 to disable)
   cooldown_seconds: 5
 
+modifiers:
+  rising_lava:
+    # Seconds between each lava layer rise, starting from the bottom of the play area region
+    rise_interval_seconds: 5
+    # Safety limit: the modifier is skipped if one lava layer exceeds this many blocks (0 = no limit)
+    max_layer_blocks: 100000
+
 game:
   # Set to 0 to disable a time limit
   time_limit_seconds: 0

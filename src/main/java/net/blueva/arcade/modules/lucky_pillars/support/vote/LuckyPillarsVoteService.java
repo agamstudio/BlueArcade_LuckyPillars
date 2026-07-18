@@ -43,7 +43,8 @@ public class LuckyPillarsVoteService {
 
     private static final Set<String> MODIFIER_OPTIONS = Set.of(
             "none", "elytra", "swap", "speed", "slow_fall",
-            "invisibility", "double_health", "one_heart", "unbreakable", "ultra_jump"
+            "invisibility", "double_health", "one_heart", "unbreakable", "ultra_jump",
+            "rising_lava"
     );
 
     private final ModuleConfigAPI moduleConfig;

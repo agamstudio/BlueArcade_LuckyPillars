@@ -42,6 +42,7 @@ votes:
       one_heart: "1 Heart"
       unbreakable: "Unbreakable"
       ultra_jump: "Ultra Jump"
+      rising_lava: "Rising Lava"
   messages:
     broadcast: "<yellow>{player}</yellow> <gray>voted for</gray> <aqua>{modifier}</aqua> <yellow>({votes} votes)</yellow>"
     selected:

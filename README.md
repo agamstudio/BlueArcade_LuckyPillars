@@ -67,6 +67,7 @@ Lucky Pillars only supports **modifier voting**. Use the following format:
 - `bluearcade.lucky_pillars.votes.one_heart`
 - `bluearcade.lucky_pillars.votes.unbreakable`
 - `bluearcade.lucky_pillars.votes.ultra_jump`
+- `bluearcade.lucky_pillars.votes.rising_lava`
 
 ### Global wildcard
 - `bluearcade.lucky_pillars.votes.*`

@@ -141,6 +141,19 @@ items:
     actions:
       - 'MODULE;lucky_pillars;vote modifier ultra_jump'
 
+  rising_lava:
+    slot: 23
+    name: '<red>Rising Lava</red>'
+    itemStack:
+      material: "LAVA_BUCKET"
+      amount: 1
+    lore:
+      - '<gray>Lava rises from the bottom over time.</gray>'
+      - '<gray>Votes:</gray> <white>{votes_modifier_rising_lava}</white>'
+      - '<green>Click to vote</green>'
+    actions:
+      - 'MODULE;lucky_pillars;vote modifier rising_lava'
+
   close:
     slot: 31
     name: '<red>Close</red>'

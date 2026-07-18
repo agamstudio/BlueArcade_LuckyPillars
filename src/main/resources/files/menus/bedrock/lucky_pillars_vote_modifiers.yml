@@ -63,6 +63,11 @@ buttons:
     image: 'https://blueva.net/api/menu/items/1_21_10/minecraft_rabbit_foot.png'
     actions:
       - 'MODULE;lucky_pillars;vote modifier ultra_jump'
+  rising_lava:
+    text: '<red>Rising Lava</red> <dark_gray>({votes_modifier_rising_lava})</dark_gray>'
+    image: 'https://blueva.net/api/menu/items/1_21_10/minecraft_lava_bucket.png'
+    actions:
+      - 'MODULE;lucky_pillars;vote modifier rising_lava'
   close:
     text: '<red>Close</red>'
     image: 'https://blueva.net/api/menu/items/1_21_10/minecraft_barrier.png'
