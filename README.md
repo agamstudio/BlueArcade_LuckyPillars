@@ -1,7 +1,7 @@
 # BlueArcade - Lucky Pillars
 
 This resource is a **BlueArcade 3 module** and requires the core plugin to run.
-Get BlueArcade 3 here: https://store.blueva.net/resources/resource/1-blue-arcade/
+Get BlueArcade 3 here: https://blueva.net/store/blue-arcade
 
 ## Description
 Spawn on bedrock pillars, receive random blocks/items, and be the last player or team standing.
