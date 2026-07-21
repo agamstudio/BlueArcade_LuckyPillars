@@ -17,6 +17,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
@@ -71,10 +72,35 @@ public class CombatService {
         playVisualEffects(target, killer, deathLocation);
 
         broadcastDeathMessage(context, target, killer);
+        dropInventoryAtLocation(target, deathLocation);
         context.eliminatePlayer(target, moduleConfig.getTranslation(target, "messages.eliminated"));
-        target.getInventory().clear();
         context.setPlayerSpectating(target, true);
         sendDeathTitle(context, target, killer != null);
+    }
+
+    private void dropInventoryAtLocation(Player player, Location deathLocation) {
+        if (player == null || deathLocation == null || deathLocation.getWorld() == null) {
+            return;
+        }
+
+        PlayerInventory inventory = player.getInventory();
+        dropItems(deathLocation, inventory.getStorageContents());
+        dropItems(deathLocation, inventory.getArmorContents());
+        dropItems(deathLocation, new ItemStack[]{inventory.getItemInOffHand()});
+        inventory.clear();
+    }
+
+    private void dropItems(Location location, ItemStack[] contents) {
+        if (contents == null || contents.length == 0) {
+            return;
+        }
+
+        for (ItemStack item : contents) {
+            if (item == null || item.getType() == Material.AIR || item.getAmount() <= 0) {
+                continue;
+            }
+            location.getWorld().dropItemNaturally(location, item.clone());
+        }
     }
 
     private void playVisualEffects(Player target, Player killer, Location deathLocation) {
