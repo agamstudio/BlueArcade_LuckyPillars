@@ -6,6 +6,7 @@ import net.blueva.arcade.api.team.TeamInfo;
 import net.blueva.arcade.api.team.TeamsAPI;
 import net.blueva.arcade.modules.lucky_pillars.game.LuckyPillarsGame;
 import net.blueva.arcade.modules.lucky_pillars.state.ArenaState;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -14,6 +15,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
+import org.bukkit.entity.Vehicle;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -21,8 +23,12 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.vehicle.VehicleDamageEvent;
+import org.bukkit.event.vehicle.VehicleDestroyEvent;
+import org.bukkit.event.vehicle.VehicleEnterEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class LuckyPillarsListener implements Listener {
@@ -105,7 +111,50 @@ public class LuckyPillarsListener implements Listener {
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void onSpectatorInteractEntity(PlayerInteractEntityEvent event) {
+        if (!isArenaSpectator(event.getPlayer())) {
+            return;
+        }
+        if (event.getRightClicked() instanceof Vehicle) {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void onSpectatorVehicleEnter(VehicleEnterEvent event) {
+        if (event.getEntered() instanceof Player player && isArenaSpectator(player)) {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void onSpectatorVehicleDamage(VehicleDamageEvent event) {
+        if (!(event.getAttacker() instanceof Player player)) {
+            return;
+        }
+        if (isArenaSpectator(player)) {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void onSpectatorVehicleDestroy(VehicleDestroyEvent event) {
+        if (!(event.getAttacker() instanceof Player player)) {
+            return;
+        }
+        if (isArenaSpectator(player)) {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onDamage(EntityDamageByEntityEvent event) {
+        Player attacker = resolveAttacker(event.getDamager());
+        if (attacker != null && isArenaSpectator(attacker) && event.getEntity() instanceof Vehicle) {
+            event.setCancelled(true);
+            return;
+        }
+
         if (!(event.getEntity() instanceof Player target)) {
             return;
         }
@@ -121,7 +170,6 @@ public class LuckyPillarsListener implements Listener {
             return;
         }
 
-        Player attacker = resolveAttacker(event.getDamager());
         if (attacker == null || !context.isPlayerPlaying(attacker)) {
             event.setCancelled(true);
             return;
@@ -139,6 +187,11 @@ public class LuckyPillarsListener implements Listener {
 
         double finalHealth = target.getHealth() - event.getFinalDamage();
         if (finalHealth > 0) {
+            return;
+        }
+
+        // Let vanilla Totem of Undying activate instead of forcing elimination
+        if (hasTotemOfUndying(target)) {
             return;
         }
 
@@ -180,6 +233,11 @@ public class LuckyPillarsListener implements Listener {
             return;
         }
 
+        // Let vanilla Totem of Undying activate instead of forcing elimination
+        if (hasTotemOfUndying(target)) {
+            return;
+        }
+
         event.setCancelled(true);
         game.handleNonCombatDeath(context, target);
     }
@@ -187,6 +245,36 @@ public class LuckyPillarsListener implements Listener {
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
         game.onPlayerQuit(event.getPlayer());
+    }
+
+    private boolean isArenaSpectator(Player player) {
+        if (player == null) {
+            return false;
+        }
+
+        GameContext<Player, Location, World, Material, ItemStack, Sound, Block, Entity> context =
+                game.getContext(player);
+        if (context == null) {
+            return false;
+        }
+
+        if (context.getSpectators() != null && context.getSpectators().contains(player)) {
+            return true;
+        }
+
+        // Fallback for spectators that are still tracked in the arena but not listed yet
+        return player.getGameMode() == GameMode.SPECTATOR
+                && (context.getPhase() == GamePhase.PLAYING || context.getPhase() == GamePhase.ENDING);
+    }
+
+    private boolean hasTotemOfUndying(Player player) {
+        if (player == null) {
+            return false;
+        }
+        ItemStack mainHand = player.getInventory().getItemInMainHand();
+        ItemStack offHand = player.getInventory().getItemInOffHand();
+        return (mainHand != null && mainHand.getType() == Material.TOTEM_OF_UNDYING)
+                || (offHand != null && offHand.getType() == Material.TOTEM_OF_UNDYING);
     }
 
     private Player resolveAttacker(Entity damager) {

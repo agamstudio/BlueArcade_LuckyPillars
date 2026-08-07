@@ -42,8 +42,8 @@ game:
   item_distribution_interval: 3
 
 spawn_protection:
-  # Seconds of fall damage immunity after the game starts
-  fall_damage_seconds: 5
+  # Seconds of fall damage immunity after the game starts (0 = none)
+  fall_damage_seconds: 0
 
 combat:
   kill_regeneration:
@@ -125,5 +125,4 @@ items:
 effects:
   # Effects to give players during the game
   # Format: EFFECT_TYPE:DURATION_TICKS:AMPLIFIER
-  starting_effects:
-    - "DAMAGE_RESISTANCE:60:1"
+  starting_effects: []

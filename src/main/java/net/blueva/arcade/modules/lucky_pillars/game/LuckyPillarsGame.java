@@ -393,7 +393,6 @@ public class LuckyPillarsGame {
 
         if (voteService != null) {
             voteService.applyVotes(context, state);
-            applyModifier(context, state); // Apply the selected modifier
         }
 
         startGameTimer(context, state);
@@ -405,22 +404,47 @@ public class LuckyPillarsGame {
             voteService.broadcastVoteResults(context, state);
         }
 
+        Attribute maxHealthAttribute = maxHealthAttribute();
         for (Player player : context.getPlayers()) {
             player.setGameMode(GameMode.SURVIVAL);
-            // No kits in Lucky Pillars - just restore vitals and apply starting items/effects
+            // Reset vitals to defaults before modifiers (e.g. one_heart / double_health) run
+            if (maxHealthAttribute != null && player.getAttribute(maxHealthAttribute) != null) {
+                player.getAttribute(maxHealthAttribute).setBaseValue(20.0);
+            }
             player.setHealth(20.0);
             player.setFoodLevel(20);
             player.setSaturation(20.0f);
             player.setFireTicks(0);
             player.getInventory().clear();
-            
+
             // Apply starting items and effects from config
             applyStartingItems(player);
             applyStartingEffects(player);
-            
+
             registerFallProtection(state, player);
             context.getScoreboardAPI().showScoreboard(player, getScoreboardPath(context));
         }
+
+        // Apply after player setup so health/items from modifiers are not overwritten
+        applyModifier(context, state);
+
+        // Core may clear inventories after onGameStart; re-equip elytra shortly after
+        if ("elytra".equalsIgnoreCase(state.getSelectedModifier())) {
+            scheduleElytraEquip(context, state, 1L);
+            scheduleElytraEquip(context, state, 10L);
+        }
+    }
+
+    private void scheduleElytraEquip(GameContext<Player, Location, World, Material, ItemStack, Sound, Block, Entity> context,
+                                     ArenaState state,
+                                     long delayTicks) {
+        String elytraTaskId = "arena_" + context.getArenaId() + "_lucky_pillars_elytra_" + delayTicks;
+        context.getSchedulerAPI().runTimer(elytraTaskId, () -> {
+            context.getSchedulerAPI().cancelTask(elytraTaskId);
+            if (!state.isEnded()) {
+                applyElytraModifier(resolveModifierPlayers(context));
+            }
+        }, delayTicks, delayTicks);
     }
 
     private void applyStartingItems(Player player) {
@@ -569,8 +593,12 @@ public class LuckyPillarsGame {
         // (happens during countdown before onGameStart when players use vote items)
         if (arenaId == null) {
             for (ArenaState state : arenas.values()) {
-                if (state.getContext() != null && state.getContext().getPlayers().contains(player)) {
-                    arenaId = state.getContext().getArenaId();
+                if (state.getContext() == null) {
+                    continue;
+                }
+                GameContext<Player, Location, World, Material, ItemStack, Sound, Block, Entity> ctx = state.getContext();
+                if (ctx.getPlayers().contains(player) || ctx.getSpectators().contains(player)) {
+                    arenaId = ctx.getArenaId();
                     // Cache for next time
                     playerArena.put(player, arenaId);
                     break;
@@ -931,8 +959,8 @@ public class LuckyPillarsGame {
             return; // No modifier selected
         }
 
-        List<Player> players = context.getPlayers();
-        if (players == null || players.isEmpty()) {
+        List<Player> players = resolveModifierPlayers(context);
+        if (players.isEmpty()) {
             return;
         }
 
@@ -970,12 +998,31 @@ public class LuckyPillarsGame {
         }
     }
 
+    private List<Player> resolveModifierPlayers(
+            GameContext<Player, Location, World, Material, ItemStack, Sound, Block, Entity> context) {
+        if (context == null) {
+            return List.of();
+        }
+        List<Player> alive = context.getAlivePlayers();
+        if (alive != null && !alive.isEmpty()) {
+            return alive;
+        }
+        List<Player> players = context.getPlayers();
+        return players != null ? players : List.of();
+    }
+
     private void applyElytraModifier(List<Player> players) {
+        if (players == null || players.isEmpty()) {
+            return;
+        }
         for (Player player : players) {
-            if (player != null && player.isOnline()) {
-                ItemStack elytra = new ItemStack(Material.ELYTRA);
-                player.getInventory().setChestplate(elytra);
+            if (player == null || !player.isOnline()) {
+                continue;
             }
+            ItemStack elytra = new ItemStack(Material.ELYTRA);
+            player.getInventory().setChestplate(elytra);
+            // Ensure the client sees the equipped armor immediately
+            player.updateInventory();
         }
     }
 
@@ -1049,24 +1096,26 @@ public class LuckyPillarsGame {
     private void applyDoubleHealthModifier(List<Player> players) {
         Attribute maxHealthAttribute = maxHealthAttribute();
         for (Player player : players) {
-            if (player != null && player.isOnline()) {
-                if (maxHealthAttribute != null && player.getAttribute(maxHealthAttribute) != null) {
-                    player.getAttribute(maxHealthAttribute).setBaseValue(40.0); // 20 hearts
-                    player.setHealth(40.0);
-                }
+            if (player == null || !player.isOnline()) {
+                continue;
             }
+            if (maxHealthAttribute != null && player.getAttribute(maxHealthAttribute) != null) {
+                player.getAttribute(maxHealthAttribute).setBaseValue(40.0); // 20 hearts
+            }
+            player.setHealth(Math.min(40.0, player.getMaxHealth()));
         }
     }
 
     private void applyOneHeartModifier(List<Player> players) {
         Attribute maxHealthAttribute = maxHealthAttribute();
         for (Player player : players) {
-            if (player != null && player.isOnline()) {
-                if (maxHealthAttribute != null && player.getAttribute(maxHealthAttribute) != null) {
-                    player.getAttribute(maxHealthAttribute).setBaseValue(2.0); // 1 heart
-                    player.setHealth(2.0);
-                }
+            if (player == null || !player.isOnline()) {
+                continue;
             }
+            if (maxHealthAttribute != null && player.getAttribute(maxHealthAttribute) != null) {
+                player.getAttribute(maxHealthAttribute).setBaseValue(2.0); // 1 heart
+            }
+            player.setHealth(Math.min(2.0, player.getMaxHealth()));
         }
     }
 
